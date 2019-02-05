@@ -48,3 +48,5 @@ public class MatchController {
 
     }
 }
+
+//andere mappings nog later toevoegen voor update en delete acties
