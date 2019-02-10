@@ -2,6 +2,7 @@ package nl.reinders.match;
 
 import org.springframework.web.bind.annotation.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 @RestController
@@ -23,6 +24,33 @@ public class MatchController {
         }
     }
 
+
+    @GetMapping("/matches")
+    public ArrayList<Match>  getAllMatches() throws SQLException {
+    ArrayList<Match> matches = new ArrayList<>();    
+    	try (PreparedStatement stmt = ds.makeConnection().prepareStatement("SELECT * FROM tblScore")) {
+            
+    		ResultSet rs = stmt.executeQuery() ;
+               
+    			while (rs.next()) {
+    				
+    			Match m = new Match();
+    			m.setId(rs.getInt("idtblScore"));
+    			m.setDate(rs.getDate("Date"));
+    			m.setPlace(rs.getString("Place"));
+    			m.setHometeam(rs.getString("HomeTeam"));
+    			m.setHometeam(rs.getString("AwayTeam"));
+    			m.setHomescore(rs.getInt("HomeScore"));
+    			m.setAwayscore(rs.getInt("AwayScore"));
+    			matches.add(m);
+            }
+    		return matches;	
+        } catch (SQLException e) {
+    	    System.out.println(e.getErrorCode() + ": " + e.getMessage());	
+        }
+    	return null;
+    }
+    
     @PostMapping("/match")
     public Match createMatch(@RequestParam(name="date", required=false) Date date,
                                    @RequestParam(name="place") String place,

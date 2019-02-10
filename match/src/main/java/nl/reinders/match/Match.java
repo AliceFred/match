@@ -21,6 +21,10 @@ public class Match {
         this.awayscore=awayscore;
     }
 
+    public Match() {
+    	
+    }
+    
     public int getId() {
         return id;
     }
