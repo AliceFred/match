@@ -38,16 +38,20 @@ function populateTable(object) {
 
     var obj = object;
     var table = $("<table />");
-    table[0].border = "1";
+    table[0].border = "2";
+    //bepalen van het aantal kolommen en rijen
     var columns = Object.keys(obj[0]);
     var columnCount = columns.length;
     var row = $(table[0].insertRow(-1));
+    
+    // loop door de kolommen (= var columns) en maak van elke kolom een header
     for (var i = 0; i < columnCount; i++) {
         var headerCell = $("<th />");
         headerCell.html([columns[i]]);
         row.append(headerCell);
     }
 
+    //loop door 
     for (var i = 0; i < obj.length; i++) {
         row = $(table[0].insertRow(-1));
         for (var j = 0; j < columnCount; j++) {
@@ -63,15 +67,12 @@ function populateTable(object) {
 }
 
 function getData(surl, callback) {
-    /*
-    Deze functie begeleidt de aanroep van de restcontroller. Er moet nog wel wat aan exception handling worden toegevoegd.
-    */
     $.ajax({
         url: surl,
 
         method: 'GET',
         dataType: 'json',
-        success: populateTable(data),
+        success: callback,
         error: function (requestObject, error, errorThrown) {
 
             console.log("error thrown, add handler to exit gracefully");
@@ -81,4 +82,4 @@ function getData(surl, callback) {
     return false;
 }
 
-getData("http://localhost:8080/matches");
+getData("http://localhost:8080/matches", populateTable);
