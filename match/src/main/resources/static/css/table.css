@@ -1,0 +1,7 @@
+    .tabel {
+        border-collapse: collapse;
+        border: 2px solid black;
+        width: 1200px;
+        font: helvetica;
+        font-size: 150%;
+    }
